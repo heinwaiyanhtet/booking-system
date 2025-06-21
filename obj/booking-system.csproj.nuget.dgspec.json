@@ -43,15 +43,35 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "FirebaseAdmin": {
+              "target": "Package",
+              "version": "[3.2.0, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[8.0.17, )"
+            },
+            "Microsoft.AspNetCore.OData": {
+              "target": "Package",
+              "version": "[9.3.2, )"
+            },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[8.0.17, )"
+            },
+            "Microsoft.EntityFrameworkCore.InMemory": {
+              "target": "Package",
+              "version": "[9.0.6, )"
             },
             "MySql.EntityFrameworkCore": {
               "target": "Package",
               "version": "[9.0.3, )"
             },
             "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[6.6.2, )"
+            },
+            "Swashbuckle.AspNetCore.Swagger": {
               "target": "Package",
               "version": "[6.6.2, )"
             }

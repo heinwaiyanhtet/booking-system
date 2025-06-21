@@ -1,4 +1,6 @@
+using BookingSystem.Data;
 using BookingSystem.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookingSystem.Services
 {
