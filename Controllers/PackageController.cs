@@ -1,26 +1,27 @@
+using BookingSystem.Entities;
 using BookingSystem.Models;
 using BookingSystem.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
+using Microsoft.AspNetCore.OData.Routing.Controllers;
 
 namespace BookingSystem.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class PackageController : ControllerBase
+    public class PackageController : ODataController
     {
         private readonly PackageService _packages;
         public PackageController(PackageService packages) => _packages = packages;
 
-
-        [HttpGet]
         [EnableQuery]
-        public async Task<ActionResult<IEnumerable<PackageDto>>> Get([FromQuery] string country)
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Package>>> Get()
         {
-            var list = await _packages.GetPackagesAsync(country);
-            return Ok(list.Select(p => new PackageDto(p.Id, p.Name, p.Country, p.Credits, p.Price, p.ExpireAt)));
+            var list = await _packages.GetAllPackagesAsync(); 
+            return Ok(list);
         }
 
-        
     }
+
 }

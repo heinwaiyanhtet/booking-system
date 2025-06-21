@@ -9,19 +9,18 @@ var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-// Set up OData
-// var odataBuilder = new ODataConventionModelBuilder();
-// odataBuilder.EntitySet<User>("Users");
-// odataBuilder.EntitySet<Package>("Packages");
-// odataBuilder.EntitySet<ClassSchedule>("ClassSchedules");
-// odataBuilder.EntitySet<Booking>("Bookings");
+var odataBuilder = new ODataConventionModelBuilder();
+odataBuilder.EntitySet<User>("Users");
+odataBuilder.EntitySet<Package>("Packages");
+odataBuilder.EntitySet<ClassSchedule>("ClassSchedules");
+odataBuilder.EntitySet<Booking>("Bookings");
 
-// // Add services
-// builder.Services.AddControllers().AddOData(opt =>
-//     opt.AddRouteComponents("odata", odataBuilder.GetEdmModel())
-//        .Select().Filter().OrderBy().Expand().Count());
-// builder.Services.AddEndpointsApiExplorer();
-// builder.Services.AddSwaggerGen();
+// Add services
+builder.Services.AddControllers().AddOData(opt =>
+    opt.AddRouteComponents("odata", odataBuilder.GetEdmModel())
+       .Select().Filter().OrderBy().Expand().Count());
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 if (!string.IsNullOrWhiteSpace(connectionString))
 {
