@@ -47,6 +47,10 @@
               "target": "Package",
               "version": "[8.0.17, )"
             },
+            "MySql.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[9.0.3, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.6.2, )"
