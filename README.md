@@ -18,10 +18,16 @@ The `booking-system/docs/ERD.png` file provides the database schema in
 ![Booking System ERD](booking-system/docs/ERD.png)
 
 
+
+
 ---
 
 
   
+The database schema and seed data are provided in the `scripts` directory:
+
+- **Database schema and backup:** [`booking-system/scripts/backup.sql`](booking-system/scripts/backup.sql)
+
 
 
 ## Running with Docker Compose
