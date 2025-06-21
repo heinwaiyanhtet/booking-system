@@ -14,7 +14,6 @@ namespace BookingSystem.Controllers
 
 
         //  Users can see the available package list to buy for each country.
-        
         [HttpGet]
         [EnableQuery]
         public async Task<ActionResult<IEnumerable<ClassDto>>> Get([FromQuery] string country)

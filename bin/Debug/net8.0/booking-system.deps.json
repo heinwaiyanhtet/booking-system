@@ -10,6 +10,7 @@
         "dependencies": {
           "FirebaseAdmin": "3.2.0",
           "Hangfire": "1.8.20",
+          "Hangfire.MemoryStorage": "1.8.1.2",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "8.0.17",
           "Microsoft.AspNetCore.OData": "9.3.2",
           "Microsoft.AspNetCore.OpenApi": "8.0.17",
@@ -182,6 +183,17 @@
           },
           "lib/netstandard2.0/zh/Hangfire.Core.resources.dll": {
             "locale": "zh"
+          }
+        }
+      },
+      "Hangfire.MemoryStorage/1.8.1.2": {
+        "dependencies": {
+          "Hangfire.Core": "1.8.20"
+        },
+        "runtime": {
+          "lib/netstandard1.3/Hangfire.MemoryStorage.dll": {
+            "assemblyVersion": "1.8.1.0",
+            "fileVersion": "1.8.1.0"
           }
         }
       },
@@ -954,6 +966,13 @@
       "sha512": "sha512-PSk0daUo3WCcnh89Bydj/xJ+M7GA+eR4nXXD5v/CIBOTCAx+oa3/DNjqLJPC9QHojsKXt0DO6u87aGxCQZ78Og==",
       "path": "hangfire.core/1.8.20",
       "hashPath": "hangfire.core.1.8.20.nupkg.sha512"
+    },
+    "Hangfire.MemoryStorage/1.8.1.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Z2C+WOHRHMe4Oh4VghJPGTECh0+/sndaLiUCv1Zyoq+6Y79FXteUg+nl2M40xc1D9ntntBfLwfLpfDpLA/idEg==",
+      "path": "hangfire.memorystorage/1.8.1.2",
+      "hashPath": "hangfire.memorystorage.1.8.1.2.nupkg.sha512"
     },
     "Hangfire.NetCore/1.8.20": {
       "type": "package",

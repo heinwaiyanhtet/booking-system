@@ -14,5 +14,13 @@ namespace BookingSystem.Entities
         public int ClassScheduleId { get; set; }
         public ClassSchedule? ClassSchedule { get; set; }
         public DateTime AddedAt { get; set; }
+
+        [ForeignKey("UserPackage")]
+        public int UserPackageId { get; set; }
+        public UserPackage? UserPackage { get; set; }
+        public int ReservedCredits { get; set; }
+
+
+        
     }
 }

@@ -108,3 +108,4 @@
 /Users/heinwaiyanhtet/Desktop/booking-system/bin/Debug/net8.0/zh/Hangfire.Core.resources.dll
 /Users/heinwaiyanhtet/Desktop/booking-system/bin/Debug/net8.0/Pipelines.Sockets.Unofficial.dll
 /Users/heinwaiyanhtet/Desktop/booking-system/bin/Debug/net8.0/StackExchange.Redis.dll
+/Users/heinwaiyanhtet/Desktop/booking-system/bin/Debug/net8.0/Hangfire.MemoryStorage.dll

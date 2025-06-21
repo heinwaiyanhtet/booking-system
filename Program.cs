@@ -1,9 +1,14 @@
 using BookingSystem.Data;
 using BookingSystem.Entities;
 using BookingSystem.Services;
+using BookingSystem.Mocks;
+using BookingSystem.Cache;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.OData;
 using Microsoft.OData.ModelBuilder;
+using Hangfire;
+using Hangfire.MemoryStorage;
+using BookingSystem.Schedulers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,12 +20,15 @@ odataBuilder.EntitySet<Package>("Packages");
 odataBuilder.EntitySet<ClassSchedule>("ClassSchedules");
 odataBuilder.EntitySet<Booking>("Bookings");
 
-// Add services
 builder.Services.AddControllers().AddOData(opt =>
     opt.AddRouteComponents("odata", odataBuilder.GetEdmModel())
        .Select().Filter().OrderBy().Expand().Count());
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddSwaggerGen();
+builder.Services.AddHangfire(config => config.UseMemoryStorage());
+builder.Services.AddHangfireServer();
 
 if (!string.IsNullOrWhiteSpace(connectionString))
 {
@@ -36,15 +44,14 @@ else
 }
 
 
-// Register services
-builder.Services.AddScoped<UserService>();
+// builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<PackageService>();
 builder.Services.AddScoped<ClassService>();
 builder.Services.AddScoped<BookingService>();
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddSingleton<FirebaseAuthService>();
-
-
+builder.Services.AddSingleton<RedisCacheHelper>();
+builder.Services.AddScoped<BookingJobService>();
 
 var app = builder.Build();
 
@@ -54,8 +61,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
 
+app.UseHttpsRedirection();
+app.UseHangfireDashboard();
 app.MapControllers();
 
 app.Run();

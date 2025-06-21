@@ -1,6 +1,7 @@
 using BookingSystem.Data;
 using BookingSystem.Entities;
 using BookingSystem.Cache;
+using BookingSystem.Schedulers;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookingSystem.Services
@@ -9,10 +10,12 @@ namespace BookingSystem.Services
     {
         private readonly BookingDbContext _db;
         private readonly RedisCacheHelper _cache;
-        public BookingService(BookingDbContext db, RedisCacheHelper cache)
+        private readonly BookingJobService _jobs;
+        public BookingService(BookingDbContext db, RedisCacheHelper cache, BookingJobService jobs)
         {
             _db = db;
             _cache = cache;
+            _jobs = jobs;
         }
 
         public async Task<Booking?> BookClassAsync(int userId, int classId)
@@ -38,13 +41,20 @@ namespace BookingSystem.Services
                     var existing = await _db.Waitlists.FirstOrDefaultAsync(w => w.UserId == userId && w.ClassScheduleId == classId);
                     if (existing == null)
                     {
-                        _db.Waitlists.Add(new Waitlist
+                        var pkg = await _db.UserPackages.FirstOrDefaultAsync(p => p.UserId == userId && p.RemainingCredits >= schedule.RequiredCredits);
+                        if (pkg == null) return null;
+                        pkg.RemainingCredits -= schedule.RequiredCredits;
+                        var wait = new Waitlist
                         {
                             UserId = userId,
                             ClassScheduleId = classId,
+                            UserPackageId = pkg.Id,
+                            ReservedCredits = schedule.RequiredCredits,
                             AddedAt = DateTime.UtcNow
-                        });
+                        };
+                        _db.Waitlists.Add(wait);
                         await _db.SaveChangesAsync();
+                        _jobs.ScheduleRefundForWaitlist(classId, schedule.StartTime);
                     }
                     return null;
                 }
@@ -55,6 +65,9 @@ namespace BookingSystem.Services
                                    b.ClassSchedule!.StartTime == schedule.StartTime);
                 if (overlap) return null;
 
+                var userPkg = await _db.UserPackages.FirstOrDefaultAsync(p => p.UserId == userId && p.RemainingCredits >= schedule.RequiredCredits);
+                if (userPkg == null) return null;
+                userPkg.RemainingCredits -= schedule.RequiredCredits;
                 var booking = new Booking
                 {
                     UserId = userId,
@@ -81,9 +94,12 @@ namespace BookingSystem.Services
             return true;
         }
 
+        // If someone from class booked cancel the class, add a waitlist user as booked
+        // as (FIFO from waitlist).
         private async Task PromoteWaitlistAsync(int classId)
         {
             var schedule = await _db.ClassSchedules.FindAsync(classId);
+
             if (schedule == null) return;
 
             var current = await _db.Bookings.Where(b => b.ClassScheduleId == classId && !b.Canceled).CountAsync();

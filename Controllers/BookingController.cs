@@ -12,6 +12,8 @@ namespace BookingSystem.Controllers
         public BookingController(BookingService bookings) => _bookings = bookings;
 
 
+
+        // book the class
         [HttpPost]
         public async Task<ActionResult<BookingDto>> Book(int userId, int classId)
         {
@@ -37,6 +39,5 @@ namespace BookingSystem.Controllers
             return Ok();
         }
         
-        // 
     }
 }
