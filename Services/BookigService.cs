@@ -21,6 +21,8 @@ namespace BookingSystem.Services
         public async Task<Booking?> BookClassAsync(int userId, int classId)
         {
             var schedule = await _db.ClassSchedules.FindAsync(classId);
+
+
             if (schedule == null) return null;
 
             var lockKey = $"booking_lock_{classId}";
@@ -44,12 +46,25 @@ namespace BookingSystem.Services
 
                 if (cachedCount >= schedule.Capacity)
                 {
+
                     var existing = await _db.Waitlists.FirstOrDefaultAsync(w => w.UserId == userId && w.ClassScheduleId == classId);
+
                     if (existing == null)
                     {
-                        var pkg = await _db.UserPackages.FirstOrDefaultAsync(p => p.UserId == userId && p.RemainingCredits >= schedule.RequiredCredits);
+
+                        // each package is available to only one country.
+                                    Console.WriteLine(schedule);
+
+                        var pkg = await _db.UserPackages
+                        .Include(p => p.Package)
+                        .FirstOrDefaultAsync(p => p.UserId == userId
+                            && p.Package!.Country == schedule.Country
+                            && p.RemainingCredits >= schedule.RequiredCredits);
+
+
                         if (pkg == null) return null;
                         pkg.RemainingCredits -= schedule.RequiredCredits;
+
                         var wait = new Waitlist
                         {
                             UserId = userId,
@@ -58,6 +73,7 @@ namespace BookingSystem.Services
                             ReservedCredits = schedule.RequiredCredits,
                             AddedAt = DateTime.UtcNow
                         };
+
                         _db.Waitlists.Add(wait);
                         await _db.SaveChangesAsync();
                         _jobs.ScheduleRefundForWaitlist(classId, schedule.StartTime);
@@ -65,7 +81,10 @@ namespace BookingSystem.Services
                     return null;
                 }
 
+                // class တစ်ခု၏ ခွင့်ပြုသော အရေအတွက် ထက်များခွင့်မပြုပါ 
+                
                 var newCount = await _cache.IncrementAsync(countKey);
+                
                 if (newCount > schedule.Capacity)
                 {
                     await _cache.DecrementAsync(countKey);
@@ -74,8 +93,19 @@ namespace BookingSystem.Services
 
                     if (existing == null)
                     {
-                        var pkg = await _db.UserPackages.FirstOrDefaultAsync(p => p.UserId == userId && p.RemainingCredits >= schedule.RequiredCredits);
+                        // each package is available to only one country.
+                        Console.WriteLine(schedule);
+
+                        var pkg = await _db.UserPackages
+                            .Include(p => p.Package)
+                            .FirstOrDefaultAsync(
+                                p => p.UserId == userId
+                                && p.Package!.Country == schedule.Country
+                                && p.RemainingCredits >= schedule.RequiredCredits);
+
+
                         if (pkg == null) return null;
+
                         pkg.RemainingCredits -= schedule.RequiredCredits;
                         var wait = new Waitlist
                         {
@@ -96,10 +126,22 @@ namespace BookingSystem.Services
                     .Include(b => b.ClassSchedule)
                     .AnyAsync(b => b.UserId == userId && !b.Canceled && b.ClassScheduleId != classId &&
                                    b.ClassSchedule!.StartTime == schedule.StartTime);
+
                 if (overlap) return null;
 
-                var userPkg = await _db.UserPackages.FirstOrDefaultAsync(p => p.UserId == userId && p.RemainingCredits >= schedule.RequiredCredits);
-                if (userPkg == null) return null;
+
+                // each package is available to only one country.
+
+                 Console.WriteLine(schedule);
+
+                  var userPkg = await _db.UserPackages
+                    .Include(p => p.Package)
+                    .FirstOrDefaultAsync(p => p.UserId == userId
+                        && p.Package!.Country == schedule.Country
+                        && p.RemainingCredits >= schedule.RequiredCredits);
+                        
+
+                    if (userPkg == null) return null;
                 userPkg.RemainingCredits -= schedule.RequiredCredits;
                 var booking = new Booking
                 {

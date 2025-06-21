@@ -34,3 +34,11 @@ Redis is also configured in `docker-compose.yml`. Running `docker-compose up` wi
 ```bash
 bash scripts/run_redis.sh
 ```
+
+
+
+
+[User1, User2, ..., User10]  --->  [API] ---> [Acquire Lock] ---> [Read/Update Cache] ---> [Check Capacity]
+                                                          |
+                                                          V
+                                  [Book (if available) or Waitlist (if full)] ---> [Release Lock]
