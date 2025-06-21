@@ -19,8 +19,19 @@ builder.Services.AddControllers().AddOData(opt =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<BookingDbContext>(opt =>
-    opt.UseInMemoryDatabase("booking"));
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+if (!string.IsNullOrWhiteSpace(connectionString))
+{
+    builder.Services.AddDbContext<BookingDbContext>(opt =>
+        opt.UseMySQL(connectionString));
+}
+else
+{
+    builder.Services.AddDbContext<BookingDbContext>(opt =>
+        opt.UseInMemoryDatabase("booking"));
+}
+
 
 // Register services
 builder.Services.AddScoped<UserService>();

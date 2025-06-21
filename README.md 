@@ -13,3 +13,9 @@ You can copy the contents of that file into dbdiagram.io to visualize the relati
 
 
 
+
+
+
+## Running with Docker Compose
+
+Use `docker-compose up` to start the API and a MySQL instance. The API will connect using the connection string defined in `docker-compose.yml`.

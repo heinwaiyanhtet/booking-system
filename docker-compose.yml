@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: booking
+      MYSQL_USER: booking_user
+      MYSQL_PASSWORD: booking_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  api:
+    build: .
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: "server=mysql;port=3306;database=booking;user=booking_user;password=booking_pass"
+    depends_on:
+      - mysql
+    ports:
+      - "5001:80"
+
+volumes:
+  mysql_data:

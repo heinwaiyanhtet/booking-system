@@ -17,7 +17,7 @@ namespace BookingSystem.Services
                 }
                 catch
                 {
-                    // ignore initialization errors in sample
+
                 }
             }
             _auth = FirebaseAuth.DefaultInstance;
