@@ -39,19 +39,24 @@ CREATE TABLE IF NOT EXISTS Bookings (
   Id INT AUTO_INCREMENT PRIMARY KEY,
   UserId INT NOT NULL,
   ClassScheduleId INT NOT NULL,
+  UserPackageId INT NULL,
   Canceled BOOLEAN DEFAULT FALSE,
   BookedAt DATETIME NOT NULL,
   FOREIGN KEY (UserId) REFERENCES Users(Id),
-  FOREIGN KEY (ClassScheduleId) REFERENCES ClassSchedules(Id)
+  FOREIGN KEY (ClassScheduleId) REFERENCES ClassSchedules(Id),
+  FOREIGN KEY (UserPackageId) REFERENCES UserPackages(Id)
 );
 
 CREATE TABLE IF NOT EXISTS Waitlists (
   Id INT AUTO_INCREMENT PRIMARY KEY,
   UserId INT NOT NULL,
   ClassScheduleId INT NOT NULL,
+  UserPackageId INT NULL,
+  ReservedCredits INT NOT NULL,
   AddedAt DATETIME NOT NULL,
   FOREIGN KEY (UserId) REFERENCES Users(Id),
-  FOREIGN KEY (ClassScheduleId) REFERENCES ClassSchedules(Id)
+  FOREIGN KEY (ClassScheduleId) REFERENCES ClassSchedules(Id),
+  FOREIGN KEY (UserPackageId) REFERENCES UserPackages(Id)
 );
 
 -- sample data
@@ -74,10 +79,10 @@ INSERT INTO UserPackages (UserId, PackageId, RemainingCredits, PurchasedAt)
 VALUES
   (1, 1, 5, NOW());
 
-INSERT INTO Bookings (UserId, ClassScheduleId, Canceled, BookedAt)
+INSERT INTO Bookings (UserId, ClassScheduleId, UserPackageId, Canceled, BookedAt)
 VALUES
-  (1, 1, FALSE, NOW());
+  (1, 1, 1, FALSE, NOW());
 
-INSERT INTO Waitlists (UserId, ClassScheduleId, AddedAt)
+INSERT INTO Waitlists (UserId, ClassScheduleId, AddedAt, UserPackageId, ReservedCredits)
 VALUES
-  (1, 2, NOW());
+  (1, 2, NOW(), 1, 2);

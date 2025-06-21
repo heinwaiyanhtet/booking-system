@@ -105,6 +105,7 @@ namespace BookingSystem.Services
                 {
                     UserId = userId,
                     ClassScheduleId = classId,
+                     UserPackageId = userPkg.Id,
                     BookedAt = DateTime.UtcNow
                 };
                 _db.Bookings.Add(booking);
@@ -124,9 +125,30 @@ namespace BookingSystem.Services
 
         public async Task<bool> CancelAsync(int bookingId)
         {
-            var booking = await _db.Bookings.FindAsync(bookingId);
+            var booking =  _db.Bookings.FirstOrDefault(b => b.Id == bookingId);
             if (booking == null || booking.Canceled) return false;
             booking.Canceled = true;
+
+            var schedule = await _db.ClassSchedules.FindAsync(booking.ClassScheduleId);
+
+            if (schedule != null)
+            {
+                var timeToClass = schedule.StartTime - DateTime.UtcNow;
+                if (timeToClass >= TimeSpan.FromHours(4))
+                {
+                    if (booking.UserPackageId != null)
+                    {
+                        var pkg = await _db.UserPackages.FindAsync(booking.UserPackageId);
+                        if (pkg != null)
+                        {
+                            pkg.RemainingCredits += schedule.RequiredCredits;
+                        }
+                    }
+                }
+            }
+
+
+
             await _db.SaveChangesAsync();
             await PromoteWaitlistAsync(booking.ClassScheduleId);
             return true;
@@ -145,6 +167,7 @@ namespace BookingSystem.Services
 
             var wait = await _db.Waitlists.Where(w => w.ClassScheduleId == classId)
                 .OrderBy(w => w.AddedAt).FirstOrDefaultAsync();
+                
             if (wait != null)
             {
                 _db.Waitlists.Remove(wait);
@@ -152,6 +175,7 @@ namespace BookingSystem.Services
                 {
                     UserId = wait.UserId,
                     ClassScheduleId = classId,
+                    UserPackageId = wait.UserPackageId,
                     BookedAt = DateTime.UtcNow
                 });
                 await _db.SaveChangesAsync();
