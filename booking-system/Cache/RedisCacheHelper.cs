@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace BookingSystem.Cache
 {
+
     public class RedisCacheHelper
     {
         private readonly IDatabase _db;
@@ -27,7 +28,7 @@ namespace BookingSystem.Cache
             }
         }
 
-         public async Task<long> IncrementAsync(string key)
+        public async Task<long> IncrementAsync(string key)
         {
             return await _db.StringIncrementAsync(key);
         }
