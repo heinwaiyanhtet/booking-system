@@ -1,0 +1,51 @@
+
+
+
+
+Table users {
+  id int [pk, increment]
+  email varchar
+  password_hash varchar
+  email_verified boolean
+}
+
+Table packages {
+  id int [pk, increment]
+  name varchar
+  country varchar
+  credits int
+  price decimal
+  expire_at datetime
+}
+
+Table class_schedules {
+  id int [pk, increment]
+  title varchar
+  country varchar
+  required_credits int
+  start_time datetime
+  capacity int
+}
+
+Table user_packages {
+  id int [pk, increment]
+  user_id int [ref: > users.id]
+  package_id int [ref: > packages.id]
+  remaining_credits int
+  purchased_at datetime
+}
+
+Table bookings {
+  id int [pk, increment]
+  user_id int [ref: > users.id]
+  class_schedule_id int [ref: > class_schedules.id]
+  canceled boolean
+  booked_at datetime
+}
+
+Table waitlists {
+  id int [pk, increment]
+  user_id int [ref: > users.id]
+  class_schedule_id int [ref: > class_schedules.id]
+  added_at datetime
+}
