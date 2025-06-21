@@ -11,6 +11,7 @@ namespace BookingSystem.Controllers
         private readonly BookingService _bookings;
         public BookingController(BookingService bookings) => _bookings = bookings;
 
+
         [HttpPost]
         public async Task<ActionResult<BookingDto>> Book(int userId, int classId)
         {
