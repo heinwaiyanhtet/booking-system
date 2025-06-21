@@ -44,6 +44,8 @@ builder.Services.AddScoped<BookingService>();
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddSingleton<FirebaseAuthService>();
 
+
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

@@ -20,5 +20,12 @@ namespace BookingSystem.Services
         {
             return await _db.Packages.Where(p => p.Country == country).ToListAsync();
         }
+
+          public async Task<List<UserPackage>> GetUserPackagesAsync(int userId)
+        {
+            return await _db.UserPackages.Include(up => up.Package)
+                .Where(up => up.UserId == userId)
+                .ToListAsync();
+        }
     }
 }

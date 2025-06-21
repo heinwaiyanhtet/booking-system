@@ -16,5 +16,6 @@ namespace BookingSystem.Entities
         public ClassSchedule? ClassSchedule { get; set; }
         public bool Canceled { get; set; }
         public DateTime BookedAt { get; set; }
+         public bool CheckedIn { get; set; }
     }
 }
