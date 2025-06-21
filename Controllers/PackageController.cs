@@ -12,6 +12,7 @@ namespace BookingSystem.Controllers
         private readonly PackageService _packages;
         public PackageController(PackageService packages) => _packages = packages;
 
+
         [HttpGet]
         [EnableQuery]
         public async Task<ActionResult<IEnumerable<PackageDto>>> Get([FromQuery] string country)

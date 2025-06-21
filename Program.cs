@@ -7,29 +7,33 @@ using Microsoft.OData.ModelBuilder;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+// Set up OData
 var odataBuilder = new ODataConventionModelBuilder();
 odataBuilder.EntitySet<User>("Users");
 odataBuilder.EntitySet<Package>("Packages");
 odataBuilder.EntitySet<ClassSchedule>("ClassSchedules");
 odataBuilder.EntitySet<Booking>("Bookings");
 
+// Add services
 builder.Services.AddControllers().AddOData(opt =>
     opt.AddRouteComponents("odata", odataBuilder.GetEdmModel())
        .Select().Filter().OrderBy().Expand().Count());
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
 if (!string.IsNullOrWhiteSpace(connectionString))
 {
     builder.Services.AddDbContext<BookingDbContext>(opt =>
         opt.UseMySQL(connectionString));
+    Console.WriteLine("Using MySQL: " + connectionString);
 }
 else
 {
     builder.Services.AddDbContext<BookingDbContext>(opt =>
         opt.UseInMemoryDatabase("booking"));
+    Console.WriteLine("Using InMemory DB");
 }
 
 

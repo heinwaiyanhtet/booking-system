@@ -12,6 +12,9 @@ namespace BookingSystem.Controllers
         private readonly ClassService _classes;
         public ClassController(ClassService classes) => _classes = classes;
 
+
+        //  Users can see the available package list to buy for each country.
+        
         [HttpGet]
         [EnableQuery]
         public async Task<ActionResult<IEnumerable<ClassDto>>> Get([FromQuery] string country)

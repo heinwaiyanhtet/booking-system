@@ -11,7 +11,9 @@ namespace BookingSystem.Controllers
         private readonly BookingService _bookings;
         public BookingController(BookingService bookings) => _bookings = bookings;
 
-
+        // User can see the available class schedule list for each country with class info
+        // and can book the class
+        
         [HttpPost]
         public async Task<ActionResult<BookingDto>> Book(int userId, int classId)
         {

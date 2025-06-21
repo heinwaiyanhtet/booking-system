@@ -65,11 +65,11 @@
             },
             "Microsoft.EntityFrameworkCore.InMemory": {
               "target": "Package",
-              "version": "[9.0.6, )"
+              "version": "[8.0.17, )"
             },
             "MySql.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[9.0.3, )"
+              "version": "[8.0.14, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
