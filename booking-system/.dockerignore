@@ -1,0 +1,12 @@
+**/.classpath
+**/.dockerignore
+**/.git
+**/.gitignore
+**/.vs
+**/*.user
+**/*.rsuser
+**/*.suo
+**/*.userprefs
+**/*.csproj.user
+**/bin/
+**/obj/

@@ -1,0 +1,37 @@
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Build results
+**/bin/
+**/obj/
+
+# .NET generated files
+*.user
+*.suo
+*.userprefs
+*.csproj.user
+*.sln.docstates
+
+# Rider / JetBrains
+.idea/
+*.sln.iml
+
+# Visual Studio Code settings
+.vscode/
+
+# Logs
+*.log
+
+# dotnet watch
+**/.dotnet_watch.json
+
+
+# Terraform
+
+**/.terraform/
+**/terraform.tfstate
+**/terraform.tfstate.*
+.terraform.lock.hcl
+crash.log
+
