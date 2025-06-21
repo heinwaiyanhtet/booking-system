@@ -26,5 +26,34 @@ namespace BookingSystem.Cache
                 await _db.KeyDeleteAsync(key);
             }
         }
+
+         public async Task<long> IncrementAsync(string key)
+        {
+            return await _db.StringIncrementAsync(key);
+        }
+
+        public async Task<long> DecrementAsync(string key)
+        {
+            return await _db.StringDecrementAsync(key);
+        }
+
+        public async Task<long?> GetIntAsync(string key)
+        {
+            var value = await _db.StringGetAsync(key);
+            if (value.IsNull)
+            {
+                return null;
+            }
+            if (long.TryParse(value!, out var result))
+            {
+                return result;
+            }
+            return null;
+        }
+
+        public async Task SetIntAsync(string key, long value)
+        {
+            await _db.StringSetAsync(key, value);
+        }
     }
 }

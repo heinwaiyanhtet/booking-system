@@ -32,13 +32,46 @@ namespace BookingSystem.Services
 
             try
             {
-                var currentCount = await _db.Bookings
-                    .Where(b => b.ClassScheduleId == classId && !b.Canceled)
-                    .CountAsync();
+                var countKey = $"booking_count_{classId}";
+                var cachedCount = await _cache.GetIntAsync(countKey);
+                if (cachedCount == null)
+                {
+                    cachedCount = await _db.Bookings
+                        .Where(b => b.ClassScheduleId == classId && !b.Canceled)
+                        .CountAsync();
+                    await _cache.SetIntAsync(countKey, cachedCount.Value);
+                }
 
-                if (currentCount >= schedule.Capacity)
+                if (cachedCount >= schedule.Capacity)
                 {
                     var existing = await _db.Waitlists.FirstOrDefaultAsync(w => w.UserId == userId && w.ClassScheduleId == classId);
+                    if (existing == null)
+                    {
+                        var pkg = await _db.UserPackages.FirstOrDefaultAsync(p => p.UserId == userId && p.RemainingCredits >= schedule.RequiredCredits);
+                        if (pkg == null) return null;
+                        pkg.RemainingCredits -= schedule.RequiredCredits;
+                        var wait = new Waitlist
+                        {
+                            UserId = userId,
+                            ClassScheduleId = classId,
+                            UserPackageId = pkg.Id,
+                            ReservedCredits = schedule.RequiredCredits,
+                            AddedAt = DateTime.UtcNow
+                        };
+                        _db.Waitlists.Add(wait);
+                        await _db.SaveChangesAsync();
+                        _jobs.ScheduleRefundForWaitlist(classId, schedule.StartTime);
+                    }
+                    return null;
+                }
+
+                var newCount = await _cache.IncrementAsync(countKey);
+                if (newCount > schedule.Capacity)
+                {
+                    await _cache.DecrementAsync(countKey);
+
+                    var existing = await _db.Waitlists.FirstOrDefaultAsync(w => w.UserId == userId && w.ClassScheduleId == classId);
+
                     if (existing == null)
                     {
                         var pkg = await _db.UserPackages.FirstOrDefaultAsync(p => p.UserId == userId && p.RemainingCredits >= schedule.RequiredCredits);
@@ -77,6 +110,11 @@ namespace BookingSystem.Services
                 _db.Bookings.Add(booking);
                 await _db.SaveChangesAsync();
                 return booking;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return null;
             }
             finally
             {
