@@ -6,10 +6,12 @@ namespace BookingSystem.Mocks
         {
             return true;
         }
-        
+
         public bool PaymentCharge(object param)
         {
             return true;
         }
+        
+        
     }
 }

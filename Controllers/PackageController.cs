@@ -20,7 +20,6 @@ namespace BookingSystem.Controllers
             return Ok(list.Select(p => new PackageDto(p.Id, p.Name, p.Country, p.Credits, p.Price, p.ExpireAt)));
         }
 
-
         
     }
 }
