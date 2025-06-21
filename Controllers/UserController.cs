@@ -17,5 +17,30 @@ namespace BookingSystem.Controllers
             var user = await _users.RegisterAsync(request.Email, request.Password);
             return Ok(new UserDto(user.Id, user.Email, user.EmailVerified));
         }
+
+
+        [HttpGet("{userId}")]
+        public async Task<ActionResult<UserDto>> GetProfile(int userId)
+        {
+            var user = await _users.GetByIdAsync(userId);
+            if (user == null) return NotFound();
+            return Ok(new UserDto(user.Id, user.Email, user.EmailVerified));
+        }
+
+        [HttpPost("change-password")]
+        public async Task<ActionResult> ChangePassword(ChangePasswordRequest request)
+        {
+            var ok = await _users.ChangePasswordAsync(request.UserId, request.CurrentPassword, request.NewPassword);
+            if (!ok) return BadRequest();
+            return Ok();
+        }
+
+        [HttpPost("reset-password")]
+        public async Task<ActionResult> ResetPassword(ResetPasswordRequest request)
+        {
+            var ok = await _users.ResetPasswordAsync(request.Email, request.NewPassword);
+            if (!ok) return NotFound();
+            return Ok();
+        }
     }
 }

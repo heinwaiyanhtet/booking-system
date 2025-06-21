@@ -44,7 +44,7 @@ else
 }
 
 
-// builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<PackageService>();
 builder.Services.AddScoped<ClassService>();
 builder.Services.AddScoped<BookingService>();
