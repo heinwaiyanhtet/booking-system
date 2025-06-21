@@ -48,6 +48,7 @@ namespace BookingSystem.Services
         public async Task<bool> ChangePasswordAsync(int userId, string currentPassword, string newPassword)
         {
             var user = await _db.Users.FindAsync(userId);
+            
             if (user == null) return false;
             var result = _hasher.VerifyHashedPassword(user, user.PasswordHash, currentPassword);
             if (result != PasswordVerificationResult.Success) return false;
