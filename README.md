@@ -33,30 +33,5 @@ The `booking-system/docs/ERD.png` file provides the database schema in
 
 Use `docker-compose up` to start the API and a MySQL instance. The API will connect using the connection string defined in `docker-compose.yml`.
 
-## Using an Environment Connection String
-
-The application reads `ConnectionStrings__DefaultConnection` from the environment. If set, it will connect to that MySQL instance; otherwise an in-memory database is used. Example:
-
-```bash
-export ConnectionStrings__DefaultConnection="server=localhost;port=3306;database=booking;user=booking_user;password=booking_pass"
-```
-
-## Initialising the Database with Mock Data
-
-A helper script is provided under `scripts/init_db.sh`. It creates the required tables and inserts some mock records. You can run it after the MySQL server is available:
-
-```bash
-MYSQL_USER=root MYSQL_PASSWORD=root bash scripts/init_db.sh
-```
-
-## Starting Redis with Docker
-
-Redis is also configured in `docker-compose.yml`. Running `docker-compose up` will start a Redis container listening on port `6379`. You can start it manually with the helper script:
-
-```bash
-bash scripts/run_redis.sh
-```
-
-
 
 

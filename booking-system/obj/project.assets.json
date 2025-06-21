@@ -4308,11 +4308,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/heinwaiyanhtet/Desktop/book/booking-system/booking-system.csproj",
+      "projectUniqueName": "/Users/heinwaiyanhtet/Desktop/booking-system/booking-system/booking-system.csproj",
       "projectName": "booking-system",
-      "projectPath": "/Users/heinwaiyanhtet/Desktop/book/booking-system/booking-system.csproj",
+      "projectPath": "/Users/heinwaiyanhtet/Desktop/booking-system/booking-system/booking-system.csproj",
       "packagesPath": "/Users/heinwaiyanhtet/.nuget/packages/",
-      "outputPath": "/Users/heinwaiyanhtet/Desktop/book/booking-system/obj/",
+      "outputPath": "/Users/heinwaiyanhtet/Desktop/booking-system/booking-system/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/heinwaiyanhtet/.nuget/NuGet/NuGet.Config"
