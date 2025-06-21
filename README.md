@@ -20,11 +20,6 @@ The `booking-system/docs/ERD.png` file provides the database schema in
 
 ---
 
-[User1, User2, ..., User10]  --->  [API] ---> [Acquire Lock] ---> [Read/Update Cache] ---> [Check Capacity]
-                                                          |
-                                                          V
-                                  [Book (if available) or Waitlist (if full)] ---> [Release Lock]
-
 
   
 
@@ -34,4 +29,30 @@ The `booking-system/docs/ERD.png` file provides the database schema in
 Use `docker-compose up` to start the API and a MySQL instance. The API will connect using the connection string defined in `docker-compose.yml`.
 
 
+---
 
+### how concurrency was handled
+
+
+```
+[User1, User2, ..., User10]  --->  [API] ---> [Acquire Lock] ---> [Read/Update Cache] ---> [Check Capacity]
+                                                          |
+                                                          V
+                                  [Book (if available) or Waitlist (if full)] ---> [Release Lock]
+
+```
+
+
+
+---
+
+
+
+
+## Planned Improvements
+
+- **Set up CI/CD with GitHub Actions:**  
+  I will add automated pipelines for testing and deployment using GitHub Actions.
+
+- **Deploy to AWS ECS Fargate with Terraform:**  
+  Plan to automate application deployment to AWS ECS Fargate and manage infrastructure as code using Terraform.
