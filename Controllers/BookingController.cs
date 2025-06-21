@@ -13,7 +13,7 @@ namespace BookingSystem.Controllers
 
         // User can see the available class schedule list for each country with class info
         // and can book the class
-        
+
         [HttpPost]
         public async Task<ActionResult<BookingDto>> Book(int userId, int classId)
         {
@@ -21,5 +21,7 @@ namespace BookingSystem.Controllers
             if (booking == null) return NotFound();
             return Ok(new BookingDto(booking.Id, booking.ClassScheduleId, booking.Canceled, booking.BookedAt));
         }
+
+        // 
     }
 }
