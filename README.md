@@ -32,7 +32,7 @@ The database schema and seed data are provided in the `scripts` directory:
 
 ## Running with Docker Compose
 
-Use `docker-compose up` to start the API and a MySQL instance. The API will connect using the connection string defined in `docker-compose.yml`.
+Use `docker-compose up` to start the API and a MySQL instance. The API will connect using the connection string defined in `docker-compose.yml` where in booking-system/booking-system.
 
 
 ---
@@ -53,6 +53,7 @@ Use `docker-compose up` to start the API and a MySQL instance. The API will conn
 ---
 
 
+### Docker Hub
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/heinwaiyanhtet/booking-system.svg)](https://hub.docker.com/r/heinwaiyanhtet/booking-system)
 
