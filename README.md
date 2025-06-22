@@ -54,6 +54,8 @@ Use `docker-compose up` to start the API and a MySQL instance. The API will conn
 
 
 
+[![Docker Pulls](https://img.shields.io/docker/pulls/heinwaiyanhtet/booking-system.svg)](https://hub.docker.com/r/heinwaiyanhtet/booking-system)
+
 
 ## Planned Improvements
 
