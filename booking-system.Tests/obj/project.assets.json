@@ -5222,11 +5222,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/heinwaiyanhtet/Desktop/book/booking-system.Tests/booking-system.Tests.csproj",
+      "projectUniqueName": "/Users/heinwaiyanhtet/Desktop/booking-system/booking-system.Tests/booking-system.Tests.csproj",
       "projectName": "booking-system.Tests",
-      "projectPath": "/Users/heinwaiyanhtet/Desktop/book/booking-system.Tests/booking-system.Tests.csproj",
+      "projectPath": "/Users/heinwaiyanhtet/Desktop/booking-system/booking-system.Tests/booking-system.Tests.csproj",
       "packagesPath": "/Users/heinwaiyanhtet/.nuget/packages/",
-      "outputPath": "/Users/heinwaiyanhtet/Desktop/book/booking-system.Tests/obj/",
+      "outputPath": "/Users/heinwaiyanhtet/Desktop/booking-system/booking-system.Tests/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/heinwaiyanhtet/.nuget/NuGet/NuGet.Config"
@@ -5241,8 +5241,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "/Users/heinwaiyanhtet/Desktop/book/booking-system/booking-system.csproj": {
-              "projectPath": "/Users/heinwaiyanhtet/Desktop/book/booking-system/booking-system.csproj"
+            "/Users/heinwaiyanhtet/Desktop/booking-system/booking-system/booking-system.csproj": {
+              "projectPath": "/Users/heinwaiyanhtet/Desktop/booking-system/booking-system/booking-system.csproj"
             }
           }
         }
