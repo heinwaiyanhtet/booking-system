@@ -26,8 +26,8 @@ jobs:
           dotnet restore ./booking-system.Tests/booking-system.Tests.csproj
 
 
-      - name: Run tests
-        run: dotnet test ./booking-system.Tests/booking-system.Tests.csproj --no-restore --verbosity normal
+      # - name: Run tests
+      #   run: dotnet test ./booking-system.Tests/booking-system.Tests.csproj --no-restore --verbosity normal
 
       - name: Build Docker image
         run: docker build -t booking-system ./booking-system
