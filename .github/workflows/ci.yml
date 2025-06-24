@@ -34,7 +34,9 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: |
+          dotnet restore ./booking-system/booking-system.csproj
+          dotnet restore ./booking-system.Tests/booking-system.Tests.csproj
 
       - name: Run tests
         env:
